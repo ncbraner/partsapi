@@ -3,7 +3,7 @@
 use App\Part;
 use App\BinLocation;
 use Illuminate\Http\Request;
-
+use App\Http\Controllers\PartsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,7 +24,7 @@ Route::get('/user', function (Request $request) {
 
 //get all parts avail
 Route::get('/parts', function(Request $request){
-	$parts = Parts::all();
+	$parts = Part::all();
 	return $parts;
 });
 
@@ -51,20 +51,10 @@ Route::delete('/parts/{id}', function($id){
 });
 
 
-Route::post('/parts', function(Request $request){
-	$part = new Part();
-	$part->part_number = $request->input("partNumber");
-	$part->description = $request->input("description");
-	$part->price = $request->input("price");
-	$part->save();
-	return response("part created", 201);
+Route::post('/parts', 'PartsController@store');
 
-});
+Route::patch('/parts/{id}','PartsController@update' );
 
-Route::patch('/parts', function(Request $request){
-	$parts = Parts::all();
-	return $parts;
-});
 
 Route::delete('/parts', function(Request $request){
 	$parts = Parts::all();
